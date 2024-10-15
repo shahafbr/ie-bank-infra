@@ -9,13 +9,14 @@ on:
       branches:
         - '*'
       paths-ignore:
-        - 'scripts/**'
+        - 'scripts/'
 
 env:
-  RESOURCE_GROUP_DEV: BCSAI2024-DEVOPS-STUDENTS-B-DEV
   RESOURCE_GROUP_UAT: BCSAI2024-DEVOPS-STUDENTS-B-UAT
+  RESOURCE_GROUP_DEV: BCSAI2024-DEVOPS-STUDENTS-B-DEV
   SUBSCRIPTION_ID: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
-  USER_ALIAS: sbrenner
+  USER_ALIAS: sbrunner
+
 
 jobs:
   build:
@@ -52,7 +53,7 @@ jobs:
       with:
           name: bicep-build
 
-      # Log into Azure_1
+      # Log into Azure
     - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -68,9 +69,9 @@ jobs:
         deploymentName: ${{ env.USER_ALIAS }}-dev
 
   deploy-uat:
-    if: github.event.pull_request.base.ref == 'main' || github.event_name == 'workflow_dispatch'
+# if: github.event.pull_request.base.ref == 'main' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, deploy-dev]
     environment:
       name: 'UAT'
 
