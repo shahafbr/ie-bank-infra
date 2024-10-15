@@ -52,7 +52,7 @@ jobs:
       with:
           name: bicep-build
 
-      # Log into Azure
+      # Log into Azure_1
     - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
